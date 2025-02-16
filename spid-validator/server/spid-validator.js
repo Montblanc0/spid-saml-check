@@ -31,6 +31,7 @@ const os = require('os');
 
 const useHttps = config_server.useHttps;
 const httpPort = (process.env.NODE_HTTPS_PORT) ? process.env.NODE_HTTPS_PORT : config_server.port;
+const trustAnyCert = config_server.trustAnyCert == true ? true : false;
 
 let https;
 let httpsPrivateKey;
@@ -42,6 +43,10 @@ if (useHttps) {
     httpsPrivateKey  = fs.readFileSync(config_server.httpsPrivateKey, 'utf8');
     httpsCertificate = fs.readFileSync(config_server.httpsCertificate, 'utf8');
     httpsCredentials = {key: httpsPrivateKey, cert: httpsCertificate};
+}
+
+if (trustAnyCert) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 }
 
 var app = express();

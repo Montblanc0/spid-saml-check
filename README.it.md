@@ -1,4 +1,4 @@
-# *SPID SAML Check*
+# *SPID SAML Check (fork)*
 
 *SPID SAML Check* è una suita applicativa che fornisce diversi strumenti ai Service Provider SPID, utili per ispezionare le request di autenticazione SAML inviate all'Identity Provider, verificare la correttezza del metadata e inviare response personalizzate al Service Provider. SPID SAML Check è costituito da:
  - [spid-sp-test](https://github.com/italia/spid-sp-test), per eseguire i test di conformità alle specifiche SPID
@@ -6,7 +6,32 @@
  - una web application (_`spid-demo`_) che implementa un IdP di test per eseguire demo di autenticazione
  - un'estensione per Google *Chrome* che permette di intercettare le richieste SAML (deprecata)
 
-*SPID SAML Check* è sviluppato e mantenuto da [AgID - Agenzia per l'Italia Digitale](https://www.agid.gov.it).
+Il [repository originale](https://github.com/italia/spid-saml-check) è sviluppato e mantenuto da [AgID - Agenzia per l'Italia Digitale](https://www.agid.gov.it).
+
+## Fork changes
+
+Questo fork aggiunge il [flag trustAnyCert](https://github.com/Montblanc0/spid-saml-check/blob/ec56c667b602fe49ee645cf77cebd48ff73b46b8/spid-validator/config/server.json#L8) in `spid-validator/config/server.json` per validare qualsiasi certificato SSL.
+
+Funziona solo quando anche `useHttps: true`.
+
+Imposta `"trustAnyCert": true` prima della build per abilitare questa funzione.
+
+### Example config
+
+```json
+{
+  "host": "https://my.domain.com",
+  "port": 8443,
+  "useProxy": false,
+  "useHttps": true,
+  "httpsPrivateKey": "./config/spid-saml-check.key",
+  "httpsCertificate": "./config/spid-saml-check.crt",
+  "trustAnyCert": true
+}
+
+```
+
+Utilizzare a proprio rischio.
 
 ## Quick start con Docker
 L'intera suite applicativa è disponibile come immagine Docker pubblicata
